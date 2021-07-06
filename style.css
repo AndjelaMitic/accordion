@@ -15,13 +15,15 @@ body{
 }
 .accordion__item{
   margin-bottom: 40px;
+  border: 1px solid rgba(0,0,0,.3);
+  background: white;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.accordion__item--selected{
   box-shadow: 1px 1px 40px 0px rgba(0,0,0,0.3);
   -webkit-box-shadow: 1px 1px 40px 0px rgba(0,0,0,0.3);
   -moz-box-shadow: 1px 1px 40px 0px rgba(0,0,0,0.3);
-  overflow: hidden;
-  border-radius: 5px;
-
-
 }
 .accordion__heading{
   display: flex;

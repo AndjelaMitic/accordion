@@ -5,14 +5,12 @@ const accordion = {};
 accordion.classes = {
   context : 'js-accordion',
   item: 'js-item',
-  heading : 'js-action',
   arrow: 'js-arrow',
   content: 'js-content'
 },
 
 accordion.states = {
   itemSelected: 'accordion__item--selected',
-  titleSelected: 'accordion__title--selected',
   contentOpen: 'accordion__content--open'
 
 },
@@ -20,32 +18,43 @@ accordion.states = {
 accordion.selectors = {
   ctx : document.getElementsByClassName(accordion.classes.context),
   item: document.getElementsByClassName(accordion.classes.item),
-  heading : document.getElementsByClassName(accordion.classes.heading),
   arrow : document.getElementsByClassName(accordion.classes.arrow),
   content : document.getElementsByClassName(accordion.classes.content)
 };
 
 // DOM selectors
-const items = accordion.selectors.item;
-
+const items = Array.from(accordion.selectors.item);
 
 accordion.hideAll = () => {
-  console.log('Hide all.');
+  items.forEach((item, i) => {
+    if (item.classList.contains(accordion.states.itemSelected)) {
+        item.classList.remove(accordion.states.itemSelected);
+    }
+  });
 },
 
 accordion.showFirst = () => {
-  console.log('Show all.');
   accordion.hideAll();
+  items[0].classList.add(accordion.states.itemSelected);
 },
-accordion.showSelected = () => {
-  console.log('Show selected.');
+
+accordion.setEvent = () => {
+  items.forEach((item, i) => {
+    item.addEventListener('click', function() {
+      accordion.showSelected(this);
+    });
+  });
+}
+
+accordion.showSelected = (selected) => {
   accordion.hideAll();
+  selected.classList.add(accordion.states.itemSelected);
+  console.log(selected);
 },
 
 accordion.init = () => {
   accordion.showFirst();
-  accordion.showSelected();
-  console.log('All works.');
+  accordion.setEvent();
 },
 
 accordion.init();
