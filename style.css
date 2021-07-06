@@ -8,14 +8,20 @@ body{
 }
 .container{
   padding: 0 20px;
-  max-width: 1480px;
+  max-width: 1024px;
   width: 100%;
   margin: 0 auto;
 
 }
+h3{
+  text-align: center;
+  font-size: 55px;
+  font-weight: 400;
+  font-family: 'Reenie Beanie', cursive;
+}
 .accordion__item{
   margin-bottom: 40px;
-  border: 1px solid rgba(0,0,0,.3);
+  border: 1px solid rgba(0,0,0,.2);
   background: white;
   overflow: hidden;
   border-radius: 5px;
@@ -33,23 +39,27 @@ body{
   cursor: pointer;
 }
 .accordion__title{
-  font-size: 25px;
+  font-size: 55px;
   margin: 0;
-  font-weight: 500;
+  font-weight: 400;
+  font-family: 'Reenie Beanie', cursive;
 }
 .accordion__content{
   height: 0;
-  transition: height ease-in-out 0.3s;
-  -webkit-transition: height ease-in-out 0.3s;
+  opacity: 0;
+  transition: opacity ease-in-out 0.3s;
+  -webkit-transition: opacity ease-in-out 0.3s;
 }
 .accordion__content--open{
   height: auto;
-  transition: height ease-in-out 0.3s;
-  -webkit-transition: height ease-in-out 0.3s;
+  opacity: 1;
+  transition: opacity ease-in-out 0.3s;
+  -webkit-transition: opacity ease-in-out 0.3s;
 }
 .accordion__content p{
   padding: 0px 30px 30px;
   margin: 0;
   line-height: 1.5;
   font-size: 20px;
+  font-family: 'Rubik', sans-serif;
 }

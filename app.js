@@ -1,74 +1,81 @@
 // ``
+class Accordion {
+    constructor(param) {
+      this.classes = {
+       context : `${param}`,
+       item: 'js-item',
+       arrow: 'js-arrow',
+       content: 'js-content'
+     }
 
-const accordion = {};
+     this.states = {
+       itemSelected: 'accordion__item--selected',
+       contentOpen: 'accordion__content--open',
+       arrowUp: 'fa-chevron-up',
+       arrowDown: 'fa-chevron-down'
+     }
 
-accordion.classes = {
-  context : 'js-accordion',
-  item: 'js-item',
-  arrow: 'js-arrow',
-  content: 'js-content'
-},
+     this.ctx = document.querySelector(`.${this.classes.context}`);
 
-accordion.states = {
-  itemSelected: 'accordion__item--selected',
-  contentOpen: 'accordion__content--open',
-  arrowUp: 'fa-chevron-up',
-  arrowDown: 'fa-chevron-down'
+     this.selectors = {
+       item: this.ctx.querySelectorAll(`.${this.classes.item}`),
+       arrow : this.ctx.querySelectorAll(`.${this.classes.arrow}`),
+       content : this.ctx.querySelectorAll(`.${this.classes.content}`)
+     }
 
-},
-
-accordion.selectors = {
-  ctx : document.querySelector(`.${accordion.classes.context}`),
-  item: document.querySelectorAll(`.${accordion.classes.item}`),
-  arrow : document.querySelectorAll(`.${accordion.classes.arrow}`),
-  content : document.querySelectorAll(`.${accordion.classes.content}`)
-};
-
-// DOM selectors
-const items = accordion.selectors.item;
-
-accordion.deselecting = (item) => {
-  item.classList.remove(accordion.states.itemSelected);
-  item.querySelector(`.${accordion.classes.content}`).classList.remove(accordion.states.contentOpen);
-  item.querySelector(`.${accordion.classes.arrow}`).classList.remove(accordion.states.arrowUp);
-  item.querySelector(`.${accordion.classes.arrow}`).classList.add(accordion.states.arrowDown);
-},
-
-accordion.selecting = (item) => {
-  accordion.closeAll();
-  item.classList.add(accordion.states.itemSelected);
-  item.querySelector(`.${accordion.classes.content}`).classList.add(accordion.states.contentOpen);
-  item.querySelector(`.${accordion.classes.arrow}`).classList.remove(accordion.states.arrowDown);
-  item.querySelector(`.${accordion.classes.arrow}`).classList.add(accordion.states.arrowUp);
-},
-
-accordion.closeAll = () => {
-    items.forEach((item, i) => {
-    if (item.classList.contains(accordion.states.itemSelected) || item.querySelector(`.${accordion.classes.content}`).classList.contains(accordion.states.contentOpen)) {
-      accordion.deselecting(item);
+     // DOM selectors
+     this.items = this.selectors.item;
     }
-  });
-},
 
-accordion.showFirst = () => {
-  accordion.selecting(items[0]);
-},
 
-accordion.showSelected = (selected) => {
-  accordion.selecting(selected);
-},
+    deselecting = (item) => {
+      item.classList.remove(this.states.itemSelected);
+      item.querySelector(`.${this.classes.content}`).classList.remove(this.states.contentOpen);
+      item.querySelector(`.${this.classes.arrow}`).classList.remove(this.states.arrowUp);
+      item.querySelector(`.${this.classes.arrow}`).classList.add(this.states.arrowDown);
+    }
 
-accordion.setEvent = () => {
-  items.forEach((item, i) => {
-    item.addEventListener('click', function() {
-      accordion.showSelected(this);
-    });
-  });
-},
+    selecting = (item) => {
+      this.closeAll();
+      item.classList.add(this.states.itemSelected);
+      item.querySelector(`.${this.classes.content}`).classList.add(this.states.contentOpen);
+      item.querySelector(`.${this.classes.arrow}`).classList.remove(this.states.arrowDown);
+      item.querySelector(`.${this.classes.arrow}`).classList.add(this.states.arrowUp);
+    }
 
-accordion.init = () => {
-  accordion.showFirst();
-  accordion.setEvent();
-};
+    closeAll = () => {
+        this.items.forEach((item, i) => {
+        if (item.classList.contains(this.states.itemSelected) || item.querySelector(`.${this.classes.content}`).classList.contains(this.states.contentOpen)) {
+          this.deselecting(item);
+        }
+      });
+    }
 
+    showFirst = () => {
+      this.selecting(this.items[0]);
+    }
+
+    showSelected = (selected) => {
+      this.selecting(selected);
+    }
+
+    setEvent = () => {
+      const obj = this;
+      this.items.forEach((item, i) => {
+        item.addEventListener('click', function() {
+          obj.showSelected(item);
+        });
+      });
+    }
+
+    init = () => {
+      this.showFirst();
+      this.setEvent();
+    }
+}
+
+const accordion = new Accordion('js-accordion');
 accordion.init();
+
+const accordion2 = new Accordion('js-accordion2');
+accordion2.init();
