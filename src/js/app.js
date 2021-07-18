@@ -1,9 +1,13 @@
-// ``
 class Accordion {
 
-    constructor(param) {
+  /**
+   * @constructor
+   * @summary Constructor for Accordion classs
+   * @param {string} ctx The context, (DOM class, or JS hook) for the accordion instance
+ */
+    constructor(ctx) {
       this.classes = {
-       context : `${param}`,
+       context : `${ctx}`,
        item: 'js-item',
        content: 'js-content',
        arrow: 'js-arrow'
@@ -17,6 +21,11 @@ class Accordion {
       this.ctx = document.querySelector(`.${this.classes.context}`);
     }
 
+    /**
+   * @method
+   * @summary Selecting passed accorion item by adding the corresponding states class
+   * @param {Object} item The accordion item
+   */
     selecting = (item) => {
       this.closeAll();
       item.classList.add(this.states.itemSelected);
@@ -24,29 +33,53 @@ class Accordion {
       item.querySelector(`.${this.classes.arrow}`).classList.add(this.states.arrowRotate);
     }
 
+
+    /**
+   * @method
+   * @summary Hide all accorion items by removing the corresponding states class
+   */
     closeAll = () => {
       this.ctx.querySelector(`.${this.states.itemSelected}`).classList.remove(this.states.itemSelected);
       this.ctx.querySelector(`.${this.states.contentOpen}`).classList.remove(this.states.contentOpen);
       this.ctx.querySelector(`.${this.states.arrowRotate}`).classList.remove(this.states.arrowRotate);
     }
 
+
+    /**
+   * @method
+   * @summary Calling the Selecting method and passing the firts accordion item
+   */
     showFirst = () => {
       this.selecting(this.items[0]);
     }
 
+
+    /**
+   * @method
+   * @summary Calling the Selecting method and passing the choosen accordion item
+   */
     showSelected = (selected) => {
       this.selecting(selected);
     }
 
+
+    /**
+   * @method
+   * @summary Going through all the accordion items all for each item setting the click event whitch call the showSelected method and pass the choosen item
+   */
     setEvent = () => {
-      const obj = this;
       this.items.forEach((item, i) => {
-        item.addEventListener('click', function() {
-          obj.showSelected(item);
-        });
+        item.addEventListener('click', () => this.showSelected(item));
       });
     }
 
+
+    /**
+   * @method
+   * @summary Setting the properties selectors (represents the querySelectors for the DOM elements from the accordion context)
+   * and items (represents the all accordion items from the accordion context);
+   * Calling the showFirst and setEvent methods
+   */
     init = () => {
       this.selectors = {
         item: this.ctx.querySelectorAll(`.${this.classes.item}`),
@@ -58,7 +91,6 @@ class Accordion {
 
       this.showFirst();
       this.setEvent();
-      console.log(this);
     }
 }
 
