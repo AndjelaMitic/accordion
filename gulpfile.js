@@ -54,15 +54,17 @@ exports.js = js;
 
 
 //JSON SERVER
-// var server = jsonServer.create();
-//
-// function json(cb) {
-//    return gulp.src(`accordion.json`)
-//    .pipe(server.pipe())
-//    cb();
-// }
-//
-// exports.json = json;
+var server = jsonServer.create({
+  port: 25000,
+});
+
+function json(cb) {
+   return gulp.src(`accordion.json`)
+   .pipe(server.pipe())
+   cb();
+}
+
+exports.json = json;
 
 
 //JS DOCS
@@ -75,23 +77,29 @@ function doc(cb){
 exports.doc = doc;
 
 
-// //ES Lint
-// function lint(cb){
-//   return gulp.src('src/js/**/*.js')
-//     // eslint() attaches the lint output to the "eslint" property
-//     // of the file object so it can be used by other modules.
-//     .pipe(eslint())
-//     // eslint.format() outputs the lint results to the console.
-//     // Alternatively use eslint.formatEach() (see Docs).
-//     .pipe(eslint.format())
-//     // To have the process exit with an error code (1) on
-//     // lint error, return the stream and pipe to failAfterError last.
-//     .pipe(eslint.failAfterError());
-//
-//   cb();
-// }
-//
-// exports.lint = lint;
+//ES Lint
+function lint(cb){
+  return gulp.src('src/js/**/*.js')
+    .pipe(eslint({
+    'rules':{
+        'eqeqeq': 'off',
+        'quotes': [1, 'single'],
+        'semi': [1, 'always']
+    },
+    'env': {
+      'es6': true
+     },
+    'parserOptions': {
+        'ecmaVersion': 6
+      }
+    }))
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+
+  cb();
+}
+
+exports.lint = lint;
 
 
 //Watcher
@@ -100,5 +108,4 @@ function wtc() {
      gulp.watch(['src/js/**/*.js'], js);
 }
 
-// exports.default = parallel(wtc,json);
-exports.default = parallel(sync,wtc);
+exports.default = parallel(sync,wtc,json);
