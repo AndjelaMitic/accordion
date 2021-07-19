@@ -59,13 +59,12 @@ var server = jsonServer.create({
 });
 
 function json(cb) {
-   return gulp.src(`accordion.json`)
+   return gulp.src(`src/json/accordion.json`)
    .pipe(server.pipe())
    cb();
 }
 
 exports.json = json;
-
 
 //JS DOCS
 function doc(cb){
